@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="mysqlTables" targetRuntime="MyBatis3">
+        <!-- 数据库连接的信息：驱动类、连接地址、用户名、密码，MySql5.x的 driverClass=com.mysql.jdbc.Driver -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/study"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，
+          为 true时把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- targetProject:生成model类的位置 -->
+        <javaModelGenerator targetPackage="com.demo.model" targetProject="src/main/java">
+            <!-- trimStrings,从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true" />
+            <property name="enableSubPackages" value="true" />
+        </javaModelGenerator>
+
+        <!-- targetProject:mapper映射文件生成的位置 -->
+        <sqlMapGenerator targetPackage="com.demo.mapper" targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.demo.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 指定数据库表,可以指定多个 -->
+        <table schema="" tableName="users"></table>
+        <table schema="" tableName="person"></table>
+        <table schema="" tableName="person_card"></table>
+        <table schema="" tableName="student"></table>
+        <table schema="" tableName="class"></table>
+
+    </context>
+</generatorConfiguration>

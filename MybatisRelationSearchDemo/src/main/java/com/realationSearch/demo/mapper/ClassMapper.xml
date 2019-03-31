@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.realationSearch.demo.dao.ClassMapper">
+  <!-- 多次访问数据库，查询所有Person -->
+  <resultMap id="ClassMap1" type="com.realationSearch.demo.model.Classes">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <!-- collection - 用于描述关联数据是一个集合类型
+         property - 是当前类型中关系对象的属性名称
+         javaType - 关系对象的具体类型
+         select - 当前关联对象数据使用什么sql语句查询数据。
+         column - 执行查询关联数据对象sql时，传递的参数。如果传递一个参数可以直接定义当前查询的字段名。
+                  如果传递的是多个参数，使用map的String格式定义如：{参数名称=字段名称， personId=id}
+         ofType - 集合的泛型。也就是集合存储的对象类型
+         -->
+    <collection property="students" javaType="java.util.List"
+                ofType="com.realationSearch.demo.model.Student"
+                select="com.realationSearch.demo.dao.ClassMapper.selectStudentByClass"
+                column="{class_id=id}"/>
+  </resultMap>
+  <resultMap id="StudentMap1" type="com.realationSearch.demo.model.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name"></result>
+    <result column="sex" jdbcType="VARCHAR" property="sex"/>
+    <result column="age" jdbcType="INTEGER" property="age"/>
+    <result column="class_id" jdbcType="INTEGER" property="classId"/>
+  </resultMap>
+
+  <select id="selectClassManyTime" parameterType="java.lang.Integer" resultMap="ClassMap1">
+    select id, `name` from classes where id = #{id}
+  </select>
+  <!-- 根据班级查询学生 -->
+  <select id="selectStudentByClass" resultMap="StudentMap1">
+    select id, `name`, sex, age, class_id from student where class_id = #{class_id}
+  </select>
+
+  <!-- 一次访问数据库，查询所有Person -->
+  <resultMap id="ClassMap2" type="com.realationSearch.demo.model.Classes">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <!-- 定义一对多关联查询关系 -->
+    <collection property="students" javaType="java.util.List" ofType="com.realationSearch.demo.model.Student">
+      <id column="sid" jdbcType="INTEGER" property="id" />
+      <result column="sname" jdbcType="VARCHAR" property="name"/>
+      <result column="sex" jdbcType="VARCHAR" property="sex"/>
+      <result column="age" jdbcType="INTEGER" property="age"/>
+      <result column="class_id" jdbcType="INTEGER" property="classId"/>
+    </collection>
+  </resultMap>
+  <select id="selectClassOneTime" parameterType="java.lang.Integer" resultMap="ClassMap2">
+    select
+        c.id, c.`name`, s.id as sid, s.name as sname, s.sex, s.age, s.class_id as classID
+    from
+        classes c left join  student s
+        on
+        c.id = s.class_id
+    where c.id = #{id}
+  </select>
+
+</mapper>

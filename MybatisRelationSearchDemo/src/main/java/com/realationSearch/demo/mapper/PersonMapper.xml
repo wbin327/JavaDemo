@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.realationSearch.demo.dao.PersonMapper">
+  <!-- 多次访问数据库，查询所有Person -->
+  <resultMap id="PersonMap1" type="com.realationSearch.demo.model.Person">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <!-- 关系数据使用association描述。代表关系数据是一个应用对象
+         property - 是当前类型中关系对象的属性名称
+         javaType - 关系对象的具体类型
+         select - 当前关联对象数据使用什么sql语句查询数据。
+         column - 执行查询关联数据对象sql时，传递的参数。如果传递一个参数可以直接定义当前查询的字段名。
+                  如果传递的是多个参数，使用map的String格式定义如：{参数名称=字段名称， personId=id}
+         -->
+    <association property="personCard" javaType="com.realationSearch.demo.model.PersonCard"
+                 select="com.realationSearch.demo.dao.PersonMapper.selectPersonCardByPerson"
+                 column="{personId=id}"/>
+  </resultMap>
+  <resultMap id="PersonCardMap1" type="com.realationSearch.demo.model.PersonCard">
+    <id column="card_id" jdbcType="INTEGER" property="cardId" />
+    <result column="person_id" jdbcType="INTEGER" property="personId" />
+  </resultMap>
+
+  <select id="selectPersons" resultMap="PersonMap1">
+    select id, `name`, sex, age from person
+  </select>
+  <!-- 根据外键查询卡号 -->
+  <select id="selectPersonCardByPerson" resultMap="PersonCardMap1">
+    select card_id, person_id from person_card where person_id = #{personId}
+  </select>
+
+
+  <!-- 一次访问数据库，查询所有Person -->
+  <resultMap id="PersonMap2" type="com.realationSearch.demo.model.Person">
+  <id column="id" jdbcType="INTEGER" property="id" />
+  <result column="name" jdbcType="VARCHAR" property="name" />
+  <result column="sex" jdbcType="VARCHAR" property="sex" />
+  <result column="age" jdbcType="INTEGER" property="age" />
+  <association property="personCard" javaType="com.realationSearch.demo.model.PersonCard">
+    <id column="card_id" property="card_id"></id>
+    <result column="person_id" property="person_id"/>
+  </association>
+  </resultMap>
+  <select id="selectPersonsOneTime" resultMap="PersonMap2">
+    select
+        id, `name`, sex, age, card_id as cardId, person_id as personId
+    from
+        person left join  person_card
+        on
+        person.id = person_card.person_id
+  </select>
+</mapper>
