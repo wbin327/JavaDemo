@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transaction.demo.dao.AccountDao">
+  <!-- 声明返回的数据类型 -->
+  <resultMap id="AccountMap" type="com.transaction.demo.model.Account">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="money" jdbcType="INTEGER" property="money"/>
+  </resultMap>
+  
+  <update id="updateAccount" parameterType="com.transaction.demo.model.Account">
+    update
+        account
+    set
+        `name` = #{name},
+        money = #{money}
+    where
+        id = #{id}
+  </update>
+
+  <select id="select" parameterType="java.lang.Integer" resultType="com.transaction.demo.model.Account">
+    select * from account where id=#{id}
+  </select>
+
+</mapper>
