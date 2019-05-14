@@ -8,7 +8,7 @@ package Singleton;
  */
 public class DoubleCheckedSingleton {
     // 2.提供私有的静态属性
-    // volatile保证了数据的一致性，当该变量修改后，会通知其他线程
+    // volatile保证了数据的一致性，所有线程都是从主存中取该值，而不是使用当前线程空间中的值
     private static volatile DoubleCheckedSingleton instance;
 
     // 1.构造器私有化
@@ -27,11 +27,12 @@ public class DoubleCheckedSingleton {
     }
 
     public static void main(String[] args){
-        Thread t = new Thread(()->{
-            for(int i=0;i<1000;i++)
-                System.out.println(DoubleCheckedSingleton.getInstance());
-        });
-        t.start();
+        Runnable runnable = () -> System.out.println(Thread.currentThread().getName() + ":" +  HungryManSingleton.getInstance());
+        for(int i=0; i<10; i++){
+            Thread t = new Thread(runnable);
+            t.setName("线程：" + i);
+            t.start();
+        }
     }
 
 }
