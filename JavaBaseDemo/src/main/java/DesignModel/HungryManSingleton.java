@@ -1,4 +1,4 @@
-package Singleton;
+package DesignModel;
 
 /**
  * 饿汉式单例
