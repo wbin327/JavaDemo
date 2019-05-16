@@ -52,6 +52,24 @@ TransactionDefinition.ISOLATION_SERIALIZABLE: 最高的隔离级别，完全服�
 - PROPAGATION_NESTED： 
 - 嵌套事务，如果当前存在事务，则在嵌套事务中执行，如果没事务，则与REQUIRED相同
 
+### 事务回滚
+
+事务只有遇到运行期异常（即RuntimeException及其子类）时才会回滚，而在遇到检查型异常时不会回滚。
+
+事务不回滚常见的原因：
+
+- 声明式事务配置切入点表达式写错了，没切中Service中的方法
+- Service方法中，把异常给try catch了，但catch里面只是打印了异常信息，没有手动抛出RuntimeException异常
+- Service方法中，抛出的异常不属于运行时异常（如IO异常），因为Spring默认情况下是捕获到运行时异常就回滚
+
+### 事务是否只读
+
+事务的只读属性是指，对事务性资源进行只读操作或者是读写操作。所谓事务性资源就是指那些被事务管理的资源，比如数据源、 JMS 资源，以及自定义的事务性资源等等。如果确定只对事务性资源进行只读操作，那么我们可以将事务标志为只读的，以提高事务处理的性能。在 TransactionDefinition 中以 boolean 类型来表示该事务是否只读。
+
+### 事务超时(一个事务允许执行的最长时间)
+
+所谓事务超时，就是指一个事务所允许执行的最长时间，如果超过该时间限制但事务还没有完成，则自动回滚事务。在 TransactionDefinition 中以 int 的值来表示超时时间，其单位是秒。
+
 ### SpringBoot整合Mybatis
 
 1.maven依赖项配置，具体请查看pom文件
