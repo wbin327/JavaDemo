@@ -43,6 +43,11 @@ import java.util.concurrent.*;
  *             DiscardPolicy策略：该策略会默默丢弃无法处理的任务，不予任何处理。当然使用此策略，业务场景中需允许任务的丢失；
  *             自己定义拒绝策略：实现RejectedExecutionHandler接口
  *
+ *
+ * 线程池线程数量设置没有一个明确的标准，可以参考下面的公式
+ * 线程数量 = cpu数量 * cpu使用率，大于0小于1 * （1 + 任务等待时间/任务计算时间）
+ *
+ *
  */
 public class CreateThreadPool {
     /**
