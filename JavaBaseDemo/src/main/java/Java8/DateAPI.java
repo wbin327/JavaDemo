@@ -102,11 +102,21 @@ public class DateAPI {
         System.out.println("month:" + dateTime.getMonth());
     }
 
+    /**
+     * LocalDateTime（时间运算)
+     */
+    static void localDateTimePlus(){
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(now.plusMinutes(5));
+
+        System.out.println(now.plusDays(1));
+    }
 
     public static void main(String[] args){
         timeZones();
         localTime();
         localDate();
         dateTimeFormatter();
+        localDateTimePlus();
     }
 }
