@@ -1,4 +1,5 @@
-package DesignModel;
+package DesignModel.SingletonDemo;
+
 
 /**
  * 单例模式,懒汉式套路基础上加入并发控制，保证在多线程环境下，对外存在唯一一个对象

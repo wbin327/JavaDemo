@@ -13,8 +13,8 @@ public class Directory {
     private ArrayList<File> fileList;
 
     Directory(){
-        this.dirList = new ArrayList<File>();
-        this.fileList = new ArrayList<File>();
+        this.dirList = new ArrayList<>();
+        this.fileList = new ArrayList<>();
     }
     public Directory walk(){
         return recurseDirs(".", "[\\d\\D]*");
