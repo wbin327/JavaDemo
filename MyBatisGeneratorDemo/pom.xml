@@ -30,7 +30,7 @@
                     <dependency><!-- 配置连接依赖后，generatorConfig.xml不需要再配置本地驱动 -->
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.46</version>
+                        <version>8.0.16</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.38</version>
+            <version>8.0.16</version>
         </dependency>
     </dependencies>
 
