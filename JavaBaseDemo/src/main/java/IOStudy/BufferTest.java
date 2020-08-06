@@ -33,13 +33,13 @@ public class BufferTest {
     public static void main(String[] args)throws Exception{
         // 缓冲写入文件时间：784ms，文件大小41M
         long startTime1 = System.currentTimeMillis();// 获取开始时间
-        BufferTest.bufferRead(new File("jdk api 1.8_google.CHM"));
+        BufferTest.bufferRead(new File("input.txt"));
         long endTime1 = System.currentTimeMillis();//获取结束时间
         System.out.println("缓冲写入文件时间：" + (endTime1 - startTime1) + "ms");
 
         // 不使用缓冲写入文件时间：83002ms，文件大小41M
         long startTime2 = System.currentTimeMillis();// 获取开始时间
-        BufferTest.read(new File("jdk api 1.8_google.CHM"));
+        BufferTest.read(new File("input.txt"));
         long endTime2 = System.currentTimeMillis();//获取结束时间
         System.out.println("不使用缓冲写入文件时间：" + (endTime2 - startTime2) + "ms");
     }
